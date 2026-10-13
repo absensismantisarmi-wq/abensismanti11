@@ -124,7 +124,11 @@
 const $=id=>document.getElementById(id);
 const state={db:null,stream:null,models:false,staff:[],attendance:[],matched:null,descriptor:null,role:null,user:null};
 const today=()=>new Date().toLocaleDateString('sv-SE');
-const nowTime=()=>new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',hour12:false});
+// Format waktu sebagai HH:MM dengan titik dua agar cocok dengan PostgreSQL/Supabase.
+const nowTime=()=>{
+ const now=new Date();
+ return String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+};
 $('todayLabel').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 $('reportFrom').value=today();$('reportTo').value=today();
 function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',4500)}
