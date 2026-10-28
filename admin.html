@@ -95,6 +95,15 @@
    <button id="enrollFace" disabled>Ambil & simpan template wajah</button>
    <p class="sub" style="margin-top:12px">Template numerik wajah (embedding) akan disimpan, bukan foto mentah. Template tetap merupakan data biometrik sensitif.</p>
   </div>
+  <div class="panel"><h2>Daftarkan / ganti PIN pegawai</h2><p class="sub">Khusus Admin. PIN harus enam angka. PIN dikirim ke fungsi database untuk disimpan sebagai hash; tidak ditampilkan kembali.</p>
+   <form id="pinForm">
+    <div class="field"><label>Pegawai aktif</label><select id="pinEmployee" required><option value="">Pilih pegawai</option></select></div>
+    <div class="field"><label>PIN baru (6 angka)</label><input id="employeePin" type="password" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="new-password" required placeholder="Masukkan 6 angka"></div>
+    <div class="field"><label>Ulangi PIN baru</label><input id="employeePinConfirm" type="password" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="new-password" required placeholder="Ulangi 6 angka"></div>
+    <button type="submit" id="saveEmployeePin">Simpan PIN</button>
+    <p id="pinStatus" class="sub" style="margin:10px 0 0">PIN hanya dapat dikelola oleh Admin.</p>
+   </form>
+  </div>
  </div>
  <div class="panel"><h2>Daftar pegawai</h2><p class="sub">Data tersinkron dari database online.</p><div class="tablewrap"><table><thead><tr><th>ID Pegawai</th><th>Nama</th><th>Jenis</th><th>Jabatan</th><th>Template wajah</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="staffRows"><tr><td colspan="7" class="empty">Belum ada data.</td></tr></tbody></table></div></div>
 </section>
@@ -150,6 +159,7 @@ async function activateSession(){
  if(!['admin','operator'].includes(role)){await state.db.auth.signOut();state.role=null;state.user=null;throw Error('Akun ini belum diberi peran admin/operator. Minta administrator menetapkan peran melalui SQL Supabase.');}
  state.role=role;state.user=session.user;await refreshData();
  $('staffForm').querySelectorAll('input,select,button').forEach(el=>el.disabled=role!=='admin');
+ $('pinForm').querySelectorAll('input,select,button').forEach(el=>el.disabled=role!=='admin');
  $('enrollFace').disabled=role!=='admin'||!state.stream||!state.models;
  setConn('Login: '+role,true);hideAuth();toast('Login berhasil sebagai '+role+'.');return true;
 }
@@ -163,8 +173,30 @@ $('disconnect').onclick=async()=>{if(state.db)await state.db.auth.signOut().catc
 async function refreshData(){if(!state.db||!state.role)return;const [s,a]=await Promise.all([state.db.from('employees').select('*').order('name'),state.db.from('attendance').select('*').gte('work_date',today()).lte('work_date',today()).order('created_at',{ascending:false})]);if(s.error)throw s.error;if(a.error)throw a.error;state.staff=s.data||[];state.attendance=a.data||[];renderStaff();renderDashboard();renderReport()}
 function renderDashboard(){const active=state.staff.filter(x=>x.active);$('statStaff').textContent=active.length;const ids=new Set(state.attendance.filter(x=>x.check_in).map(x=>x.employee_id));$('statPresent').textContent=ids.size;const late=state.attendance.filter(x=>x.status==='Terlambat').length;$('statLate').textContent=late;$('statAbsent').textContent=Math.max(0,active.length-ids.size);const map=new Map(state.staff.map(x=>[x.id,x]));$('dashRows').innerHTML=state.attendance.length?state.attendance.map(a=>{const p=map.get(a.employee_id)||{};return `<tr><td>${esc(p.name||a.employee_id)}</td><td>${esc(p.employee_type||'-')}</td><td>${esc(a.check_in||'-')}</td><td>${esc(a.check_out||'-')}</td><td><span class="status ${a.status==='Terlambat'?'late':''}">${esc(a.status||'Hadir')}</span></td></tr>`}).join(''):'<tr><td colspan="5" class="empty">Belum ada absensi hari ini.</td></tr>'}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderStaff(){const list=state.staff;$('staffRows').innerHTML=list.length?list.map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.employee_type)}</td><td>${esc(p.role||'-')}</td><td>${p.face_descriptor?'Terdaftar':'Belum'}</td><td>${p.active?'Aktif':'Nonaktif'}</td><td>${state.role==='admin'?`<button class="danger" style="padding:6px 8px;font-size:10px" onclick="deleteStaff('${encodeURIComponent(p.id)}')">Hapus</button>`:'-'}</td></tr>`).join(''):'<tr><td colspan="7" class="empty">Belum ada data pegawai.</td></tr>';$('enrollStaff').innerHTML='<option value="">Pilih pegawai</option>'+list.filter(p=>p.active&&p.consent).map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.id)}</option>`).join('')}
+function renderStaff(){const list=state.staff;$('staffRows').innerHTML=list.length?list.map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.employee_type)}</td><td>${esc(p.role||'-')}</td><td>${p.face_descriptor?'Terdaftar':'Belum'}</td><td>${p.active?'Aktif':'Nonaktif'}</td><td>${state.role==='admin'?`<button class="danger" style="padding:6px 8px;font-size:10px" onclick="deleteStaff('${encodeURIComponent(p.id)}')">Hapus</button>`:'-'}</td></tr>`).join(''):'<tr><td colspan="7" class="empty">Belum ada data pegawai.</td></tr>';const eligible=list.filter(p=>p.active&&p.consent);const opts='<option value="">Pilih pegawai</option>'+eligible.map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.id)}</option>`).join('');$('enrollStaff').innerHTML=opts;$('pinEmployee').innerHTML='<option value="">Pilih pegawai</option>'+list.filter(p=>p.active).map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.id)}</option>`).join('');$('pinForm').querySelectorAll('input,select,button').forEach(el=>el.disabled=state.role!=='admin')}
 window.deleteStaff=async id=>{if(!state.db)return toast('Database belum terhubung.');id=decodeURIComponent(id);if(!confirm('Hapus pegawai dan riwayat absensinya sesuai kebijakan sekolah?'))return;const r=await state.db.from('employees').delete().eq('id',id);if(r.error)return toast(r.error.message);await refreshData();toast('Pegawai dihapus jika diizinkan kebijakan database.')};
+
+$('pinForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!state.db||state.role!=='admin')return toast('Hanya Admin yang dapat mendaftarkan PIN.');
+ const id=$('pinEmployee').value;
+ const pin=$('employeePin').value;
+ const confirmPin=$('employeePinConfirm').value;
+ if(!id)return toast('Pilih pegawai terlebih dahulu.');
+ if(!/^[0-9]{6}$/.test(pin))return toast('PIN harus terdiri dari tepat 6 angka.');
+ if(pin!==confirmPin)return toast('PIN dan konfirmasi PIN tidak sama.');
+ const person=state.staff.find(p=>p.id===id);
+ if(!person||!person.active)return toast('Pegawai tidak ditemukan atau tidak aktif.');
+ $('saveEmployeePin').disabled=true;$('pinStatus').textContent='Menyimpan PIN secara aman…';
+ try{
+  const {error}=await state.db.rpc('admin_set_employee_pin',{p_employee_id:id,p_pin:pin});
+  if(error)throw error;
+  $('employeePin').value='';$('employeePinConfirm').value='';
+  $('pinStatus').textContent='PIN berhasil disimpan sebagai hash. Untuk mengganti PIN, ulangi proses ini.';
+  toast('PIN pegawai berhasil disimpan.');
+ }catch(err){$('pinStatus').textContent='Gagal menyimpan PIN. Periksa konfigurasi fungsi SQL dan izin Admin.';toast('Gagal menyimpan PIN: '+err.message)}
+ finally{$('saveEmployeePin').disabled=state.role!=='admin'}
+});
 $('staffForm').addEventListener('submit',async e=>{e.preventDefault();if(!state.db)return toast('Hubungkan database di Pengaturan.');const id=$('staffId').value.trim(),name=$('staffName').value.trim();const row={id,name,employee_type:$('staffType').value,role:$('staffRole').value.trim(),active:$('staffActive').value==='true',consent:$('staffConsent').value==='true'};if(!row.consent)return toast('Konfirmasi persetujuan pemrosesan biometrik terlebih dahulu.');const {error}=await state.db.from('employees').upsert(row,{onConflict:'id'});if(error)return toast('Gagal menyimpan: '+error.message);$('staffForm').reset();await refreshData();toast('Data pegawai tersimpan.');});
 async function loadModels(){try{$('modelStatus').textContent='Status model: sedang dimuat…';await Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights'),faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights'),faceapi.nets.faceRecognitionNet.loadFromUri('https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights')]);state.models=true;$('modelStatus').textContent='Status model: siap.';$('scanFace').disabled=!state.stream;$('enrollFace').disabled=!state.stream;toast('Model wajah siap digunakan.')}catch(e){$('modelStatus').textContent='Gagal memuat model: '+e.message;toast('Model gagal dimuat. Periksa koneksi dan sumber model.')}}
 $('loadModels').onclick=loadModels;
