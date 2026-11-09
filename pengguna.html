@@ -43,7 +43,7 @@ async function loadAttendanceDashboard(){
     if(ar.error)throw Error('Data absensi tidak dapat dibaca: '+ar.error.message);
     const employees=(er.data||[]).filter(e=>e.active===undefined||e.active===true||e.active===1);
     const records=(ar.data||[]).filter(a=>{
-      const raw=firstValue(a,['attendance_date','tanggal','date','created_at','check_in','jam_masuk']);
+      const raw=firstValue(a,['work_date','attendance_date','tanggal','date','created_at']);
       return datePart(raw)===today;
     });
     const byEmployee=new Map();
