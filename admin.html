@@ -120,6 +120,22 @@
  <div class="panel"><h2>Daftar pegawai</h2><p class="sub">Data tersinkron dari database online.</p><div class="tablewrap"><table><thead><tr><th>ID Pegawai</th><th>Nama</th><th>Jenis</th><th>Jabatan</th><th>Template wajah</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="staffRows"><tr><td colspan="7" class="empty">Belum ada data.</td></tr></tbody></table></div></div>
 </section>
 <section id="laporan" class="section">
+
+ <div class="panel" id="manualLeavePanel">
+  <div class="heading" style="margin-bottom:10px"><div><h2>Input Manual Izin / Sakit</h2><p class="sub">Khusus Admin. Gunakan bila pegawai tidak dapat hadir untuk verifikasi di Kios.</p></div></div>
+  <form id="manualLeaveForm">
+   <div class="formgrid">
+    <div class="field"><label>Nama pegawai *</label><select id="manualLeaveEmployee" required><option value="">Pilih pegawai</option></select></div>
+    <div class="field"><label>Tanggal izin / sakit *</label><input id="manualLeaveDate" type="date" required></div>
+    <div class="field"><label>Jenis keterangan *</label><select id="manualLeaveType" required><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
+    <div class="field full"><label>Alasan / catatan admin *</label><input id="manualLeaveReason" maxlength="500" required placeholder="Contoh: Izin keluarga / sakit (catatan seperlunya)"></div>
+   </div>
+   <button type="submit" id="saveManualLeave">Simpan Izin / Sakit Manual</button>
+   <p class="sub" style="margin:10px 0 0">Sistem menyimpan ID Admin dan waktu pencatatan pada kolom audit attendance. Jangan menuliskan informasi kesehatan yang tidak diperlukan.</p>
+  </form>
+ </div>
+
+ <div class="panel" id="leaveAdminPanel"><div class="heading" style="margin-bottom:10px"><div><h2>Persetujuan Izin / Sakit</h2><p class="sub">Periksa pengajuan pegawai. Hanya Admin yang dapat menyetujui atau menolak.</p></div><button id="refreshLeave" class="secondary" style="width:auto">Muat ulang</button></div><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Nama Pegawai</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Catatan Admin</th><th>Aksi</th></tr></thead><tbody id="leaveRows"><tr><td colspan="7" class="empty">Belum ada pengajuan.</td></tr></tbody></table></div></div>
  <div class="heading"><div><h1>Laporan Kehadiran</h1><p>Filter data kehadiran dan ekspor ke CSV yang bisa dibuka di Excel.</p></div></div>
  <div class="panel"><div class="formgrid">
   <div class="field"><label>Dari tanggal</label><input type="date" id="reportFrom"></div>
@@ -138,8 +154,8 @@
     <button id="printMonthlyPdf" class="secondary">Cetak / Simpan PDF</button>
    </div>
    <p id="monthlyReportLabel" class="sub">Pilih bulan lalu tampilkan rekap.</p>
-   <div class="tablewrap"><table><thead><tr><th>Nama Pegawai</th><th>ID</th><th>Jenis</th><th>Hadir</th><th>Terlambat</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total tercatat</th></tr></thead><tbody id="monthlyReportRows"><tr><td colspan="9" class="empty">Belum ada rekap bulanan.</td></tr></tbody><tfoot id="monthlyReportFoot"></tfoot></table></div>
-   <p class="sub" style="margin:12px 0 0">Catatan: hadir termasuk status Terlambat. Alpa dihitung jika ada baris absensi berstatus alpa/alpha di database; hari tanpa catatan tidak otomatis dihitung alpa.</p>
+   <div class="tablewrap"><table><thead><tr><th>Nama Pegawai</th><th>ID</th><th>Jenis</th><th>Hadir</th><th>Terlambat</th><th>Izin</th><th>Sakit</th><th>Tugas Luar</th><th>Alpa</th><th>Total tercatat</th></tr></thead><tbody id="monthlyReportRows"><tr><td colspan="10" class="empty">Belum ada rekap bulanan.</td></tr></tbody><tfoot id="monthlyReportFoot"></tfoot></table></div>
+   <p class="sub" style="margin:12px 0 0">Catatan: hadir termasuk status Terlambat; Izin, Sakit, dan Tugas Luar dihitung terpisah. Alpa dihitung jika ada baris absensi berstatus alpa/alpha di database; hari tanpa catatan tidak otomatis dihitung alpa.</p>
   </div>
 </section>
 <section id="pengaturan" class="section">
@@ -157,7 +173,7 @@
 <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const state={db:null,stream:null,models:false,staff:[],attendance:[],faceIds:[],matched:null,descriptor:null,role:null,user:null};
+const state={db:null,stream:null,models:false,staff:[],attendance:[],faceIds:[],matched:null,descriptor:null,role:null,user:null,leaveRequests:[]};
 const today=()=>new Date().toLocaleDateString('sv-SE');
 // Format waktu sebagai HH:MM dengan titik dua agar cocok dengan PostgreSQL/Supabase.
 const nowTime=()=>{
@@ -167,7 +183,7 @@ const nowTime=()=>{
 $('todayLabel').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 $('reportFrom').value=today();$('reportTo').value=today();$('reportMonth').value=today().slice(0,7);
 function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',4500)}
-function showPage(p){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===p));$('pageTitle').textContent=({dashboard:'Dashboard',absensi:'Absensi Face ID',pegawai:'Data Pegawai',laporan:'Laporan Kehadiran',pengaturan:'Pengaturan'})[p];if(p==='pegawai')renderStaff();if(p==='laporan'){renderReport();renderMonthlyReport()}}
+function showPage(p){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===p));$('pageTitle').textContent=({dashboard:'Dashboard',absensi:'Absensi Face ID',pegawai:'Data Pegawai',laporan:'Laporan Kehadiran',pengaturan:'Pengaturan'})[p];if(p==='pegawai')renderStaff();if(p==='laporan'){renderReport();renderMonthlyReport();renderLeaveRequests()}}
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
 function getSettings(){try{return JSON.parse(localStorage.getItem('sarmiSettings')||'{}')}catch{return {}}}
 function setConn(s,ok=false){$('connection').textContent=s;$('connection').style.background=ok?'#e4f7ed':'#fff0dc';$('connection').style.color=ok?'#18754f':'#925b00'}
@@ -182,7 +198,7 @@ async function activateSession(){
  const {data:role,error:roleError}=await state.db.rpc('get_my_role');
  if(roleError)throw Error('Gagal memeriksa peran akun. Jalankan SQL keamanan dan tetapkan peran admin/operator. Detail: '+roleError.message);
  if(!['admin','operator'].includes(role)){await state.db.auth.signOut();state.role=null;state.user=null;throw Error('Akun ini belum diberi peran admin/operator. Minta administrator menetapkan peran melalui SQL Supabase.');}
- state.role=role;state.user=session.user;await refreshData();
+ state.role=role;state.user=session.user;const manualPanel=$('manualLeavePanel');if(manualPanel)manualPanel.style.display=role==='admin'?'block':'none';await refreshData();
  $('staffForm').querySelectorAll('input,select,button').forEach(el=>el.disabled=role!=='admin');
  $('pinForm').querySelectorAll('input,select,button').forEach(el=>el.disabled=role!=='admin');
  $('enrollFace').disabled=role!=='admin'||!state.stream||!state.models;
@@ -195,7 +211,68 @@ $('authLoginForm').addEventListener('submit',async e=>{e.preventDefault();if(!st
 $('logoutButton').onclick=async()=>{try{if(state.db)await state.db.auth.signOut();state.role=null;state.user=null;state.staff=[];state.attendance=[];setConn('Login diperlukan');showAuth('Anda sudah keluar. Login kembali untuk melanjutkan.')}catch(e){toast('Gagal keluar: '+e.message)}};
 $('settingsForm').addEventListener('submit',async e=>{e.preventDefault();let url=$('supabaseUrl').value.trim(),key=$('supabaseKey').value.trim();try{localStorage.setItem('sarmiSettings',JSON.stringify({url,key,late:$('lateTime').value||'07:30'}));await connect(url,key)}catch(err){state.db=null;setConn('Koneksi gagal');showAuth('Koneksi gagal: '+err.message);toast('Koneksi gagal: '+err.message)}});
 $('disconnect').onclick=async()=>{if(state.db)await state.db.auth.signOut().catch(()=>{});state.db=null;state.role=null;state.user=null;localStorage.removeItem('sarmiSettings');setConn('Terputus');showAuth('Koneksi diputus. Masukkan konfigurasi Supabase untuk menghubungkan kembali.');$('loginButton').disabled=true;toast('Kredensial lokal dihapus dari browser ini.')};
-async function refreshData(){if(!state.db||!state.role)return;const [s,a,f]=await Promise.all([state.db.from('employees').select('*').order('name'),state.db.from('attendance').select('*').gte('work_date',today()).lte('work_date',today()).order('created_at',{ascending:false}),state.db.rpc('admin_list_face_status')]);if(s.error)throw s.error;if(a.error)throw a.error;if(f.error)throw Error('Gagal membaca status pendaftaran wajah: '+f.error.message);state.staff=s.data||[];state.attendance=a.data||[];state.faceIds=(f.data||[]).filter(x=>x.face_registered).map(x=>x.employee_id);renderStaff();renderDashboard();renderReport()}
+async function refreshData(){if(!state.db||!state.role)return;const [s,a,f,l]=await Promise.all([state.db.from('employees').select('id,name,employee_type,role,active,consent,created_at,updated_at').order('name'),state.db.from('attendance').select('*').gte('work_date',today()).lte('work_date',today()).order('created_at',{ascending:false}),state.db.rpc('admin_list_face_status'),state.db.from('leave_requests').select('*').order('created_at',{ascending:false}).limit(100)]);if(s.error)throw s.error;if(a.error)throw a.error;if(f.error)throw Error('Gagal membaca status pendaftaran wajah: '+f.error.message);if(l.error)throw Error('Gagal membaca pengajuan izin/sakit: '+l.error.message);state.staff=s.data||[];
+ const manualSelect=$('manualLeaveEmployee');
+ if(manualSelect){const current=manualSelect.value;manualSelect.innerHTML='<option value="">Pilih pegawai</option>'+state.staff.filter(p=>p.active).map(p=>`<option value="${esc(p.id)}">${esc(p.name)} (${esc(p.id)})</option>`).join('');if(state.staff.some(p=>p.id===current&&p.active))manualSelect.value=current;}
+ state.attendance=a.data||[];state.faceIds=(f.data||[]).filter(x=>x.face_registered).map(x=>x.employee_id);state.leaveRequests=l.data||[];renderStaff();renderDashboard();renderReport();renderLeaveRequests()}
+function renderLeaveRequests(){
+ const body=$('leaveRows');if(!body)return;
+ const rows=state.leaveRequests||[];const people=new Map(state.staff.map(p=>[p.id,p]));
+ body.innerHTML=rows.length?rows.map(r=>{const p=people.get(r.employee_id)||{};const pending=r.status==='Menunggu';const actions=state.role==='admin'&&pending?`<button style="padding:6px 8px;font-size:11px;margin:2px" onclick="reviewLeave('${esc(r.id)}','Disetujui')">Setujui</button><button class="danger" style="padding:6px 8px;font-size:11px;margin:2px" onclick="reviewLeave('${esc(r.id)}','Ditolak')">Tolak</button>`:'-';return `<tr><td>${esc(r.leave_date)}</td><td>${esc(p.name||r.employee_id)}</td><td>${esc(r.leave_type)}</td><td>${esc(r.reason||'-')}</td><td>${esc(r.status)}</td><td>${esc(r.admin_note||'-')}</td><td>${actions}</td></tr>`}).join(''):'<tr><td colspan="7" class="empty">Belum ada pengajuan izin/sakit.</td></tr>';
+}
+window.reviewLeave=async(id,status)=>{
+ if(!state.db||state.role!=='admin')return toast('Hanya Admin yang dapat memutuskan pengajuan.');
+ const note=status==='Ditolak'?prompt('Alasan penolakan (wajib diisi):',''):prompt('Catatan Admin (opsional):','');
+ if(note===null)return;if(status==='Ditolak'&&!note.trim())return toast('Isi alasan penolakan.');
+ try{const {data,error}=await state.db.rpc('review_leave_request',{p_request_id:id,p_status:status,p_admin_note:note.trim()||null});if(error)throw error;toast(data?.message||'Keputusan pengajuan berhasil disimpan.');await refreshData();await renderMonthlyReport()}catch(e){toast('Gagal memproses pengajuan: '+e.message)}
+};
+$('refreshLeave').addEventListener('click',async()=>{try{await refreshData();toast('Daftar pengajuan diperbarui.')}catch(e){toast(e.message)}});
+
+$('manualLeaveDate').value=today();
+$('manualLeaveDate').max=today();
+$('manualLeaveForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!state.db||state.role!=='admin')return toast('Input manual Izin/Sakit hanya dapat dilakukan oleh Admin.');
+ const employeeId=$('manualLeaveEmployee').value;
+ const leaveDate=$('manualLeaveDate').value;
+ const leaveType=$('manualLeaveType').value;
+ const reason=$('manualLeaveReason').value.trim();
+ if(!employeeId||!leaveDate||!reason)return toast('Lengkapi semua kolom wajib.');
+ if(leaveDate>today())return toast('Tanggal Izin/Sakit tidak boleh di masa depan.');
+ if(!['Izin','Sakit'].includes(leaveType))return toast('Jenis keterangan tidak valid.');
+ if(reason.length>500)return toast('Catatan maksimal 500 karakter.');
+ const button=$('saveManualLeave');button.disabled=true;
+ try{
+  const {data:existing,error:findError}=await state.db.from('attendance')
+   .select('id,check_in,check_out,status')
+   .eq('employee_id',employeeId).eq('work_date',leaveDate).maybeSingle();
+  if(findError)throw findError;
+  if(existing&&(existing.check_in||existing.check_out))
+   throw Error('Pegawai sudah memiliki absensi masuk/pulang pada tanggal tersebut. Jangan menimpa catatan kehadiran; lakukan koreksi terpisah bila diperlukan.');
+  const audit={
+   status:leaveType,
+   note:'Input manual Admin: '+reason,
+   corrected_by:state.user.id,
+   corrected_at:new Date().toISOString(),
+   correction_reason:'Input manual '+leaveType+' oleh Admin'
+  };
+  let result;
+  if(existing){
+   result=await state.db.from('attendance').update(audit).eq('id',existing.id);
+  }else{
+   result=await state.db.from('attendance').insert({
+    employee_id:employeeId,work_date:leaveDate,check_in:null,check_out:null,...audit
+   });
+  }
+  if(result.error)throw result.error;
+  $('manualLeaveReason').value='';
+  toast('Catatan '+leaveType+' manual berhasil disimpan. Status ini akan tampil pada laporan dan tidak dihitung sebagai Alpa.');
+  await refreshData();
+  await renderMonthlyReport();
+ }catch(err){toast('Gagal menyimpan Izin/Sakit manual: '+err.message)}
+ finally{button.disabled=false}
+});
+
 function renderDashboard(){const active=state.staff.filter(x=>x.active);$('statStaff').textContent=active.length;const ids=new Set(state.attendance.filter(x=>x.check_in).map(x=>x.employee_id));$('statPresent').textContent=ids.size;const late=state.attendance.filter(x=>x.status==='Terlambat').length;$('statLate').textContent=late;$('statAbsent').textContent=Math.max(0,active.length-ids.size);const map=new Map(state.staff.map(x=>[x.id,x]));$('dashRows').innerHTML=state.attendance.length?state.attendance.map(a=>{const p=map.get(a.employee_id)||{};return `<tr><td>${esc(p.name||a.employee_id)}</td><td>${esc(p.employee_type||'-')}</td><td>${esc(a.check_in||'-')}</td><td>${esc(a.check_out||'-')}</td><td><span class="status ${a.status==='Terlambat'?'late':''}">${esc(a.status||'Hadir')}</span></td></tr>`}).join(''):'<tr><td colspan="5" class="empty">Belum ada absensi hari ini.</td></tr>'}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderStaff(){const list=state.staff;$('staffRows').innerHTML=list.length?list.map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td><td>${esc(p.employee_type)}</td><td>${esc(p.role||'-')}</td><td>${state.faceIds.includes(p.id)?'Terdaftar':'Belum'}</td><td>${p.active?'Aktif':'Nonaktif'}</td><td>${state.role==='admin'?`<button class="danger" style="padding:6px 8px;font-size:10px" onclick="deleteStaff('${encodeURIComponent(p.id)}')">Hapus</button>`:'-'}</td></tr>`).join(''):'<tr><td colspan="7" class="empty">Belum ada data pegawai.</td></tr>';const eligible=list.filter(p=>p.active);const opts='<option value="">Pilih pegawai</option>'+eligible.map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.id)}</option>`).join('');$('enrollStaff').innerHTML=opts;$('pinEmployee').innerHTML='<option value="">Pilih pegawai</option>'+list.filter(p=>p.active).map(p=>`<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.id)}</option>`).join('');$('pinForm').querySelectorAll('input,select,button').forEach(el=>el.disabled=state.role!=='admin')}
@@ -246,13 +323,14 @@ function monthlyStatusKey(status,checkIn){
  if(s==='hadir'||s==='tepat waktu'||(!s&&checkIn))return 'present';
  if(s==='izin')return 'leave';
  if(s==='sakit')return 'sick';
+ if(s==='tugas luar')return 'duty';
  if(s==='alpa'||s==='alpha')return 'absent';
  if(checkIn)return 'present';
  return 'other';
 }
 async function renderMonthlyReport(){
  const body=$('monthlyReportRows'),foot=$('monthlyReportFoot');
- if(!state.db){body.innerHTML='<tr><td colspan="9" class="empty">Hubungkan database terlebih dahulu.</td></tr>';return}
+ if(!state.db){body.innerHTML='<tr><td colspan="10" class="empty">Hubungkan database terlebih dahulu.</td></tr>';return}
  try{
   const {start,end}=monthBounds($('reportMonth').value||today().slice(0,7));
   $('monthlyReportLabel').textContent=`Periode: ${start} sampai ${end} · SMA NEGERI 3 SARMI`;
@@ -260,27 +338,27 @@ async function renderMonthlyReport(){
   if(error)throw error;
   const type=$('reportType').value,search=$('reportSearch').value.trim().toLowerCase();
   const people=state.staff.filter(p=>(!type||p.employee_type===type)&&(!search||String(p.id).toLowerCase().includes(search)||String(p.name||'').toLowerCase().includes(search)));
-  const stats=new Map(people.map(p=>[p.id,{person:p,present:0,late:0,leave:0,sick:0,absent:0,total:0}]));
+  const stats=new Map(people.map(p=>[p.id,{person:p,present:0,late:0,leave:0,sick:0,duty:0,absent:0,total:0}]));
   for(const a of (data||[])){
    const r=stats.get(a.employee_id);if(!r)continue;r.total++;
    const k=monthlyStatusKey(a.status,a.check_in);
    if(k==='late'){r.present++;r.late++}else if(k==='present')r.present++;
-   else if(k==='leave')r.leave++;else if(k==='sick')r.sick++;else if(k==='absent')r.absent++;
+   else if(k==='leave')r.leave++;else if(k==='sick')r.sick++;else if(k==='duty')r.duty++;else if(k==='absent')r.absent++;
   }
   const rows=[...stats.values()].sort((a,b)=>String(a.person.name||'').localeCompare(String(b.person.name||''),'id'));
-  const totals=rows.reduce((t,r)=>{for(const k of ['present','late','leave','sick','absent','total'])t[k]+=r[k];return t},{present:0,late:0,leave:0,sick:0,absent:0,total:0});
+  const totals=rows.reduce((t,r)=>{for(const k of ['present','late','leave','sick','duty','absent','total'])t[k]+=r[k];return t},{present:0,late:0,leave:0,sick:0,duty:0,absent:0,total:0});
   state.monthlyReport=rows;state.monthlyTotals=totals;
-  body.innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r.person.name||'-')}</td><td>${esc(r.person.id)}</td><td>${esc(r.person.employee_type||'-')}</td><td>${r.present}</td><td>${r.late}</td><td>${r.leave}</td><td>${r.sick}</td><td>${r.absent}</td><td>${r.total}</td></tr>`).join(''):'<tr><td colspan="9" class="empty">Tidak ada pegawai sesuai filter.</td></tr>';
-  foot.innerHTML=rows.length?`<tr style="font-weight:800;background:#f4f7fb"><td colspan="3">TOTAL SELURUH PEGAWAI</td><td>${totals.present}</td><td>${totals.late}</td><td>${totals.leave}</td><td>${totals.sick}</td><td>${totals.absent}</td><td>${totals.total}</td></tr>`:'';
- }catch(e){body.innerHTML=`<tr><td colspan="9" class="empty">${esc(e.message)}</td></tr>`;foot.innerHTML='';toast('Gagal memuat rekap bulanan: '+e.message)}
+  body.innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r.person.name||'-')}</td><td>${esc(r.person.id)}</td><td>${esc(r.person.employee_type||'-')}</td><td>${r.present}</td><td>${r.late}</td><td>${r.leave}</td><td>${r.sick}</td><td>${r.duty}</td><td>${r.absent}</td><td>${r.total}</td></tr>`).join(''):'<tr><td colspan="10" class="empty">Tidak ada pegawai sesuai filter.</td></tr>';
+  foot.innerHTML=rows.length?`<tr style="font-weight:800;background:#f4f7fb"><td colspan="3">TOTAL SELURUH PEGAWAI</td><td>${totals.present}</td><td>${totals.late}</td><td>${totals.leave}</td><td>${totals.sick}</td><td>${totals.duty}</td><td>${totals.absent}</td><td>${totals.total}</td></tr>`:'';
+ }catch(e){body.innerHTML=`<tr><td colspan="10" class="empty">${esc(e.message)}</td></tr>`;foot.innerHTML='';toast('Gagal memuat rekap bulanan: '+e.message)}
 }
 $('loadMonthlyReport').onclick=renderMonthlyReport;
 $('exportMonthlyCsv').onclick=()=>{
  const rows=state.monthlyReport||[];if(!rows.length)return toast('Tampilkan rekap bulanan terlebih dahulu.');
  const month=$('reportMonth').value||today().slice(0,7),t=state.monthlyTotals;
- const csv=[['Nama Pegawai','ID Pegawai','Jenis Pegawai','Hadir','Terlambat','Izin','Sakit','Alpa','Total Tercatat'],
- ...rows.map(r=>[r.person.name||'',r.person.id,r.person.employee_type||'',r.present,r.late,r.leave,r.sick,r.absent,r.total]),
- ['TOTAL SELURUH PEGAWAI','','',t.present,t.late,t.leave,t.sick,t.absent,t.total]]
+ const csv=[['Nama Pegawai','ID Pegawai','Jenis Pegawai','Hadir','Terlambat','Izin','Sakit','Tugas Luar','Alpa','Total Tercatat'],
+ ...rows.map(r=>[r.person.name||'',r.person.id,r.person.employee_type||'',r.present,r.late,r.leave,r.sick,r.duty,r.absent,r.total]),
+ ['TOTAL SELURUH PEGAWAI','','',t.present,t.late,t.leave,t.sick,t.duty,t.absent,t.total]]
  .map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');
  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
  a.href=url;a.download=`rekap-kehadiran-${month}-sma3-sarmi.csv`;a.click();URL.revokeObjectURL(url);
