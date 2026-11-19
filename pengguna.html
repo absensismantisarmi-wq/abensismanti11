@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Absensi Face ID — SMA Negeri 3 Sarmi</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172b42;font-family:Arial,sans-serif}main{max-width:900px;margin:24px auto;padding:16px}.card{background:#fff;border:1px solid #dce5ee;border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 8px 24px #10243a0a}h1{margin:0;font-size:24px}h2{margin-top:0;font-size:20px}p{line-height:1.6;color:#5c6b7b;font-size:14px}label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}input,select,button{font:inherit;padding:12px;border-radius:9px;width:100%;border:1px solid #d7e0e9}button{background:#1769aa;color:#fff;border:0;font-weight:bold;cursor:pointer;margin-top:12px}button:disabled{opacity:.5;cursor:not-allowed}button.secondary{background:#e7eef5;color:#172b42}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.camera{background:#0e1b29;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3;margin-top:12px}.camera video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}.face-guide{position:absolute;z-index:2;left:50%;top:50%;width:44%;height:76%;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.92);border-style:dashed;border-radius:48% 48% 45% 45%;box-shadow:0 0 0 999px rgba(5,15,25,.12),inset 0 0 18px rgba(255,255,255,.08);pointer-events:none}.face-guide:after{content:"POSISIKAN WAJAH DI DALAM BINGKAI";position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);width:max-content;max-width:90vw;color:#fff;background:rgba(0,0,0,.55);padding:6px 9px;border-radius:6px;font-size:10px;font-weight:bold;letter-spacing:.4px;text-align:center}#msg{position:absolute;z-index:3;inset:0;display:grid;place-items:center;color:white;text-align:center;padding:20px}.status{padding:13px;border-radius:9px;background:#edf5fb;color:#24425e;font-size:14px;margin-top:12px;white-space:pre-wrap}.hidden{display:none!important}.warn{background:#fff4dd;color:#805916;padding:12px;border-radius:9px;font-size:12px;line-height:1.6}.small{font-size:12px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.top a{font-size:13px}.recognized{font-size:18px;font-weight:bold;color:#1769aa}.dash-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.dash-stat{background:#edf5fb;border-radius:10px;padding:12px}.dash-stat b{display:block;font-size:22px;color:#1769aa}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}th,td{padding:10px;border-bottom:1px solid #e5ebf1;text-align:left}th{background:#f5f8fb}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7f5eb;color:#21643a}.pill.no{background:#fff1dc;color:#805916}@media(max-width:700px){.dash-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.grid{grid-template-columns:1fr}main{margin:8px auto;padding:10px}}
+*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172b42;font-family:Arial,sans-serif}main{max-width:900px;margin:24px auto;padding:16px}.card{background:#fff;border:1px solid #dce5ee;border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 8px 24px #10243a0a}h1{margin:0;font-size:24px}h2{margin-top:0;font-size:20px}p{line-height:1.6;color:#5c6b7b;font-size:14px}label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}input,select,button{font:inherit;padding:12px;border-radius:9px;width:100%;border:1px solid #d7e0e9}button{background:#1769aa;color:#fff;border:0;font-weight:bold;cursor:pointer;margin-top:12px}button:disabled{opacity:.5;cursor:not-allowed}button.secondary{background:#e7eef5;color:#172b42}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.camera{background:#0e1b29;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3;margin-top:12px}.camera video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}.face-guide{position:absolute;z-index:2;left:50%;top:50%;width:44%;height:76%;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.92);border-style:dashed;border-radius:48% 48% 45% 45%;box-shadow:0 0 0 999px rgba(5,15,25,.12),inset 0 0 18px rgba(255,255,255,.08);pointer-events:none}.face-guide:after{content:"POSISIKAN WAJAH DI DALAM BINGKAI";position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);width:max-content;max-width:90vw;color:#fff;background:rgba(0,0,0,.55);padding:6px 9px;border-radius:6px;font-size:10px;font-weight:bold;letter-spacing:.4px;text-align:center}#msg{position:absolute;z-index:3;inset:0;display:grid;place-items:center;color:white;text-align:center;padding:20px}.status{padding:13px;border-radius:9px;background:#edf5fb;color:#24425e;font-size:14px;margin-top:12px;white-space:pre-wrap}.hidden{display:none!important}.warn{background:#fff4dd;color:#805916;padding:12px;border-radius:9px;font-size:12px;line-height:1.6}.small{font-size:12px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.top a{font-size:13px}.recognized{font-size:18px;font-weight:bold;color:#1769aa}.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.ticker{overflow:hidden;white-space:nowrap;background:#e8f3ff;border:1px solid #cfe3f5;border-radius:10px;padding:11px;margin:12px 0;color:#174d78;font-weight:bold}.ticker span{display:inline-block;min-width:100%;animation:runTicker 22s linear infinite}@keyframes runTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}.pulse{animation:softPulse 2s ease-in-out infinite}@keyframes softPulse{0%,100%{box-shadow:0 0 0 0 #1769aa22}50%{box-shadow:0 0 0 7px #1769aa08}}.pill.bolos{background:#fde8e8;color:#9d2525}.pill.alpa{background:#fff1dc;color:#805916}.sound-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.sound-controls button{width:auto;margin:0}.dash-stat{background:#edf5fb;border-radius:10px;padding:12px}.dash-stat b{display:block;font-size:22px;color:#1769aa}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}th,td{padding:10px;border-bottom:1px solid #e5ebf1;text-align:left}th{background:#f5f8fb}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7f5eb;color:#21643a}.pill.no{background:#fff1dc;color:#805916}@media(max-width:700px){.dash-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.grid{grid-template-columns:1fr}main{margin:8px auto;padding:10px}}
 </style></head><body><main>
 <div class="top"><div><h1>Absensi Face ID</h1><p>SMA Negeri 3 Sarmi · Guru dan Staf Tata Usaha</p></div><a href="index.html">Kembali ke Dasbor</a></div>
 <section id="configCard" class="card"><h2>Hubungkan Supabase</h2><label>Project URL</label><input id="url" placeholder="https://project.supabase.co" type="url"><label>Publishable / anon key</label><input id="key" placeholder="sb_publishable_..." autocomplete="off"><button id="connect">Hubungkan</button><div id="status" class="status">Masukkan URL dan publishable/anon key. Jangan gunakan service_role atau secret key.</div></section>
@@ -13,7 +13,7 @@
 <div class="grid"><button id="startCamera">Aktifkan Kamera</button><button id="stopCamera" class="secondary" disabled>Matikan Kamera</button></div>
 <div class="grid"><button id="loadModels" class="secondary">Muat Model Wajah</button><button id="scan" disabled>Kenali Wajah</button></div>
 <div id="recognized" class="status">Belum ada pegawai yang dikenali.</div><button id="save" disabled>Simpan Absensi</button><div class="grid"><button id="enableVoice" class="secondary" type="button">Aktifkan Suara Notifikasi</button><div id="voiceStatus" class="status">Suara notifikasi belum diaktifkan pada perangkat ini.</div></div><div id="result" class="status">Aktifkan kamera dan muat model untuk memulai.</div></section>
-<section id="attendanceDashboard" class="card hidden"><div class="top"><h2>Dasbor Kehadiran Hari Ini</h2><button id="refreshDashboard" class="secondary" style="width:auto;margin:0">Perbarui</button></div><p>Daftar ini menampilkan pegawai aktif beserta status absen masuk dan pulang pada hari ini.</p><div class="dash-stats"><div class="dash-stat"><span>Total pegawai</span><b id="dashTotal">0</b></div><div class="dash-stat"><span>Sudah absen masuk</span><b id="dashIn">0</b></div><div class="dash-stat"><span>Belum absen masuk</span><b id="dashOut">0</b></div><div class="dash-stat"><span>Alpa hari ini</span><b id="dashAlpa">0</b></div></div><div id="dashboardMessage" class="status">Memuat data kehadiran…</div><div class="table-wrap"><table><thead><tr><th>Nama pegawai</th><th>Absen masuk</th><th>Absen pulang</th><th>Status</th></tr></thead><tbody id="dashboardRows"><tr><td colspan="4">Belum ada data.</td></tr></tbody></table></div></section>
+<section id="attendanceDashboard" class="card hidden"><div class="top"><h2>Dasbor Kehadiran Hari Ini</h2><button id="refreshDashboard" class="secondary" style="width:auto;margin:0">Perbarui</button></div><p>Daftar ini menampilkan pegawai aktif. Setelah batas Alpa, pegawai tanpa absen masuk ditandai ALPA. Pegawai yang sudah masuk tetapi belum absen pulang ditandai BOLOS sesuai permintaan sekolah.</p><div class="dash-stats"><div class="dash-stat"><span>Total pegawai</span><b id="dashTotal">0</b></div><div class="dash-stat"><span>Sudah absen masuk</span><b id="dashIn">0</b></div><div class="dash-stat"><span>Belum absen masuk</span><b id="dashOut">0</b></div><div class="dash-stat"><span>Alpa hari ini</span><b id="dashAlpa">0</b></div><div class="dash-stat"><span>Bolos (belum pulang)</span><b id="dashBolos">0</b></div></div><div class="ticker pulse" aria-live="polite"><span id="dashboardTicker">Memuat ringkasan kehadiran hari ini…</span></div><div class="sound-controls"><button id="toggleMusic" class="secondary" type="button">Aktifkan Backsound</button><span id="musicStatus" class="small">Backsound mati. Tekan tombol untuk mengaktifkan atau mematikan.</span></div><div id="dashboardMessage" class="status">Memuat data kehadiran…</div><div class="table-wrap"><table><thead><tr><th>Nama pegawai</th><th>Absen masuk</th><th>Absen pulang</th><th>Status</th></tr></thead><tbody id="dashboardRows"><tr><td colspan="4">Belum ada data.</td></tr></tbody></table></div></section>
 <p class="small">RLS tetap aktif. Gunakan hanya publishable/anon key di browser. Jangan unggah service_role key ke GitHub. Sediakan prosedur absensi alternatif jika kamera atau pengenalan wajah gagal.</p></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script><script>
 const $=id=>document.getElementById(id);let db=null,stream=null,models=false,recognized=null,matched=false,lastDescriptor=null;
@@ -96,36 +96,62 @@ $('save').onclick=async()=>{try{if(!matched||!recognized)throw Error('Kenali waj
 function firstValue(obj,keys){for(const k of keys){if(obj&&obj[k]!==undefined&&obj[k]!==null&&obj[k]!=='')return obj[k]}return null}
 function datePart(v){if(!v)return null;const d=new Date(v);if(Number.isNaN(d.getTime()))return String(v).slice(0,10);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function timePart(v){if(!v)return '—';const d=new Date(v);if(typeof v==='string'&&v.includes('T')&&!Number.isNaN(d.getTime()))return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});return String(v).slice(0,5)}
+
+function getWitParts(date=new Date()){
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jayapura',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date);
+  const v=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+  return {date:`${v.year}-${v.month}-${v.day}`,hour:Number(v.hour),minute:Number(v.minute),weekday:new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Jayapura',weekday:'short'}).format(date)};
+}
 async function loadAttendanceDashboard(){
   const msg=$('dashboardMessage'),body=$('dashboardRows');
   msg.textContent='Mengambil data kehadiran dari Supabase…';body.replaceChildren();
   try{
-    const today=datePart(new Date());
+    const now=getWitParts(),today=now.date;
     const {data,error}=await db.rpc('kiosk_get_attendance_dashboard',{p_work_date:today});
     if(error)throw Error(error.message);
     const employees=Array.isArray(data?.employees)?data.employees:[];
     const records=Array.isArray(data?.attendance)?data.attendance:[];
+    // Jika fungsi RPC mengirim flag kalender, ikuti flag tersebut. Jika tidak, gunakan hari kerja Senin-Jumat.
+    const calendarFlag=data?.is_workday??data?.isWorkday??data?.calendar?.is_workday;
+    const isWorkday=calendarFlag===undefined||calendarFlag===null
+      ? !['Sat','Sun'].includes(now.weekday)
+      : calendarFlag===true||String(calendarFlag).toLowerCase()==='true';
+    const cutoffRaw=data?.absent_after||data?.absentAfter||data?.calendar?.absent_after||'09:00';
+    const cutoffParts=String(cutoffRaw).slice(0,5).split(':').map(Number);
+    const cutoffMinute=(cutoffParts[0]||9)*60+(cutoffParts[1]||0);
+    const pastAlpaCutoff=now.hour*60+now.minute>=cutoffMinute;
     const byEmployee=new Map();
     for(const a of records){
-      const id=a.employee_id;
-      if(!id)continue;
+      const id=a.employee_id;if(!id)continue;
       const prev=byEmployee.get(String(id))||{};
-      byEmployee.set(String(id),{checkIn:a.check_in||prev.checkIn,checkOut:a.check_out||prev.checkOut,status:a.status||prev.status});
+      byEmployee.set(String(id),{checkIn:a.check_in||prev.checkIn,checkOut:a.check_out||prev.checkOut,status:a.status||prev.status,note:a.note||prev.note});
     }
-    let countIn=0,countAlpa=0;
+    let countIn=0,countAlpa=0,countBolos=0,countPending=0;
+    const alpaNames=[],bolosNames=[];
     for(const e of employees){
       const a=byEmployee.get(String(e.id))||{};
-      if(a.checkIn)countIn++;
       const normalizedStatus=String(a.status||'').trim().toLowerCase();
-      if(normalizedStatus==='alpa'||normalizedStatus==='alpha')countAlpa++;
+      const leaveStatus=['izin','sakit','tugas luar'].includes(normalizedStatus);
+      const dbAlpa=['alpa','alpha'].includes(normalizedStatus);
+      const isAlpa=dbAlpa||(!a.checkIn&&!leaveStatus&&isWorkday&&pastAlpaCutoff);
+      const isBolos=!!a.checkIn&&!a.checkOut&&!leaveStatus&&!dbAlpa;
+      if(a.checkIn)countIn++;
+      if(isAlpa){countAlpa++;alpaNames.push(e.name||'Nama tidak tersedia')}
+      if(isBolos){countBolos++;bolosNames.push(e.name||'Nama tidak tersedia')}
+      if(!a.checkIn&&!isAlpa&&!leaveStatus)countPending++;
+      let statusText='Belum absen masuk';
+      if(leaveStatus)statusText=normalizedStatus.toUpperCase();
+      else if(isAlpa)statusText='ALPA';
+      else if(isBolos)statusText='BOLOS — belum absen pulang';
+      else if(a.checkIn&&a.checkOut)statusText='Sudah masuk & pulang';
+      else if(a.checkIn)statusText='Sudah absen masuk';
       const tr=document.createElement('tr');
       for(const val of [e.name||'Nama tidak tersedia',timePart(a.checkIn),timePart(a.checkOut)]){
         const td=document.createElement('td');td.textContent=val;tr.appendChild(td);
       }
       const td=document.createElement('td'),span=document.createElement('span');
-      span.className='pill'+(a.checkIn?'':' no');
-      span.textContent=(normalizedStatus==='alpa'||normalizedStatus==='alpha')?'Alpa':a.checkOut?'Sudah masuk & pulang':a.checkIn?'Sudah absen masuk':'Belum absen masuk';
-      td.appendChild(span);tr.appendChild(td);body.appendChild(tr);
+      span.className='pill'+(isBolos?' bolos':isAlpa?' alpa':(!a.checkIn?' no':''));
+      span.textContent=statusText;td.appendChild(span);tr.appendChild(td);body.appendChild(tr);
     }
     if(!employees.length){
       const tr=document.createElement('tr'),td=document.createElement('td');
@@ -134,17 +160,53 @@ async function loadAttendanceDashboard(){
     }
     $('dashTotal').textContent=employees.length;
     $('dashIn').textContent=countIn;
-    $('dashOut').textContent=Math.max(0,employees.length-countIn-countAlpa);
+    $('dashOut').textContent=countPending;
     $('dashAlpa').textContent=countAlpa;
-    msg.textContent='Data Supabase diperbarui: '+new Date().toLocaleString('id-ID')+'. Tanggal: '+today+'.';
+    $('dashBolos').textContent=countBolos;
+    const tickerParts=[];
+    tickerParts.push(`HADIR MASUK: ${countIn}`);
+    tickerParts.push(`ALPA: ${countAlpa}${alpaNames.length?' — '+alpaNames.join(', '):''}`);
+    tickerParts.push(`BOLOS / BELUM ABSEN PULANG: ${countBolos}${bolosNames.length?' — '+bolosNames.join(', '):''}`);
+    $('dashboardTicker').textContent=tickerParts.join('   •   ');
+    msg.textContent='Data Supabase diperbarui: '+new Date().toLocaleString('id-ID',{timeZone:'Asia/Jayapura'})+'. Tanggal WIT: '+today+'. Batas Alpa: '+String(cutoffRaw).slice(0,5)+'. '+(isWorkday?'Hari kerja menurut aturan tampilan.':'Bukan hari kerja; Alpa otomatis tidak dihitung.');
   }catch(e){
     msg.textContent='Dasbor gagal memuat data: '+e.message+' Pastikan SQL fungsi kiosk_get_attendance_dashboard sudah dijalankan.';
+    $('dashboardTicker').textContent='Data kehadiran belum tersedia.';
     const tr=document.createElement('tr'),td=document.createElement('td');
     td.colSpan=4;td.textContent='Data tidak tersedia.';
     tr.appendChild(td);body.appendChild(tr);
   }
 }
+
 $('refreshDashboard').onclick=loadAttendanceDashboard;
+
+let ambientAudio=null,ambientNodes=null;
+function stopAmbient(){
+  try{if(ambientNodes){ambientNodes.forEach(n=>{try{n.stop?.();n.disconnect?.()}catch(_){}})}if(ambientAudio){ambientAudio.close().catch(()=>{})}}catch(_){}
+  ambientAudio=null;ambientNodes=null;
+  $('toggleMusic').textContent='Aktifkan Backsound';
+  $('musicStatus').textContent='Backsound mati.';
+}
+async function startAmbient(){
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass){$('musicStatus').textContent='Perangkat tidak mendukung audio latar.';return}
+  try{
+    ambientAudio=new AudioContextClass();
+    await ambientAudio.resume();
+    const master=ambientAudio.createGain();master.gain.value=0.018;master.connect(ambientAudio.destination);
+    const notes=[196,246.94,293.66];
+    ambientNodes=notes.map((hz,i)=>{
+      const osc=ambientAudio.createOscillator(),gain=ambientAudio.createGain();
+      osc.type='sine';osc.frequency.value=hz;gain.gain.value=i===0?0.42:0.18;
+      osc.connect(gain);gain.connect(master);osc.start();return osc;
+    });
+    $('toggleMusic').textContent='Matikan Backsound';
+    $('musicStatus').textContent='Backsound ambient lembut aktif.';
+  }catch(e){stopAmbient();$('musicStatus').textContent='Audio tidak dapat diputar: '+e.message}
+}
+$('toggleMusic').onclick=()=>ambientAudio?stopAmbient():startAmbient();
+window.addEventListener('pagehide',stopAmbient);
+
 
 (async()=>{try{const s=JSON.parse(localStorage.getItem('sarmiKioskSettings')||'{}');if(s.url&&s.key){$('url').value=s.url;$('key').value=s.key;db=window.supabase.createClient(s.url,s.key);const {data:{session},error}=await db.auth.getSession();if(error)throw error;hide('configCard');if(session)await activate();else show('loginCard')}}catch(e){say(e.message)}})();
 </script></body></html>
