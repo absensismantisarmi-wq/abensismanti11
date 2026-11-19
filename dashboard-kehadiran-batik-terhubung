@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard Kehadiran — SMA Negeri 3 Sarmi</title>
+<style>
+:root{--navy:#142b45;--blue:#1f5576;--gold:#d6a94b;--cream:#fff8e9;--paper:#fffdf7;--ink:#203449;--muted:#68798a;--green:#247a57;--red:#b84a45;--orange:#bd7b2b}
+*{box-sizing:border-box}body{margin:0;background:#f3ead8;color:var(--ink);font-family:Inter,Arial,sans-serif;min-height:100vh}
+.batik-top,.batik-bottom{height:28px;background-color:#17334d;background-image:
+radial-gradient(circle at 12px 14px,transparent 7px,#d6a94b 7.8px,#d6a94b 9px,transparent 9.8px),
+radial-gradient(circle at 30px 14px,transparent 7px,#d6a94b 7.8px,#d6a94b 9px,transparent 9.8px),
+linear-gradient(45deg,transparent 43%,#d6a94b 44%,#d6a94b 48%,transparent 49%),
+linear-gradient(-45deg,transparent 43%,#d6a94b 44%,#d6a94b 48%,transparent 49%);
+background-size:42px 28px,42px 28px,21px 28px,21px 28px}
+header{background:linear-gradient(115deg,#142b45,#245b78);color:white;padding:24px clamp(16px,4vw,56px) 30px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;right:-70px;top:-120px;width:330px;height:330px;border:2px solid #d6a94b55;border-radius:50%;box-shadow:0 0 0 18px #d6a94b12,0 0 0 38px #d6a94b0d}
+.head{max-width:1240px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:20px;position:relative;z-index:1}
+.brand{display:flex;gap:15px;align-items:center}.seal{width:62px;height:62px;border:2px solid var(--gold);border-radius:18px;display:grid;place-items:center;font-weight:900;color:#f8d889;background:#ffffff10;font-size:19px;transform:rotate(-3deg)}
+h1{font-size:clamp(23px,3vw,36px);margin:0;letter-spacing:.3px}.subtitle{margin:7px 0 0;color:#e2e9ed;font-size:13px;letter-spacing:1.4px}
+.datebox{border:1px solid #e4c47788;background:#ffffff12;border-radius:14px;padding:12px 16px;text-align:right;font-size:13px;color:#f8e8bf}
+main{max-width:1240px;margin:26px auto;padding:0 18px 32px}
+.welcome{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--paper);border:1px solid #e5d7b9;border-radius:20px;padding:18px 22px;margin-bottom:20px;box-shadow:0 8px 22px #392b170c;position:relative;overflow:hidden}
+.welcome:before{content:"";position:absolute;inset:0 auto 0 0;width:7px;background:repeating-linear-gradient(135deg,var(--gold) 0 5px,var(--navy) 5px 10px)}
+.welcome h2{margin:0 0 5px;font-size:20px;color:var(--navy)}.welcome p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.mascots{display:flex;align-items:end;gap:8px;padding-right:10px}
+.mascot{width:58px;height:58px;border-radius:50% 50% 42% 42%;display:grid;place-items:center;font-size:34px;background:#f7e8c8;border:2px solid #e0bd70;animation:bob 3s ease-in-out infinite}
+.mascot:nth-child(2){animation-delay:.45s;background:#e4eff2}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+.section-title{display:flex;align-items:center;gap:10px;margin:24px 2px 12px;color:var(--navy)}.section-title h2{font-size:18px;margin:0}.ornament{height:2px;flex:1;background:linear-gradient(90deg,var(--gold),transparent)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.stat{background:var(--paper);border:1px solid #e6d9bf;border-radius:17px;padding:17px;position:relative;overflow:hidden;box-shadow:0 6px 18px #392b1708;transition:transform .2s}
+.stat:hover{transform:translateY(-3px)}.stat:after{content:"";position:absolute;width:65px;height:65px;border:1px solid #d6a94b55;border-radius:50%;right:-18px;bottom:-25px}
+.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}.stat-icon{font-size:23px}.stat strong{display:block;font-size:34px;margin-top:10px;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted);font-size:11px}.stat.green strong{color:var(--green)}.stat.red strong{color:var(--red)}.stat.orange strong{color:var(--orange)}
+.content-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:16px}
+.panel{background:var(--paper);border:1px solid #e5d7b9;border-radius:18px;padding:18px;box-shadow:0 7px 20px #392b1708;min-width:0}
+.panel h3{margin:0;color:var(--navy);font-size:17px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.tag{font-size:11px;color:#765b22;background:#f8edcf;border:1px solid #ead59d;padding:6px 9px;border-radius:20px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:420px;font-size:13px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #eee5d5}th{color:#718091;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+.status{display:inline-block;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:700;background:#edf1f3;color:#536473}.status.hadir{background:#e3f2e9;color:#236b49}.status.alpa{background:#fae6e3;color:#a13e39}.status.bolos{background:#fff0d9;color:#98601e}
+.ranking{display:flex;flex-direction:column;gap:10px}.rank-row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:13px;background:#fbf5e8;border:1px solid #f0e4ca;animation:fadeup .55s both}
+.rank-row:nth-child(2){animation-delay:.1s}.rank-row:nth-child(3){animation-delay:.2s}.rank-row:nth-child(4){animation-delay:.3s}.rank-row:nth-child(5){animation-delay:.4s}
+@keyframes fadeup{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.medal{font-size:24px;text-align:center}.rank-name{font-weight:700;font-size:13px;color:var(--navy)}.rank-sub{font-size:11px;color:var(--muted);margin-top:3px}.days{font-weight:800;color:#946d20;font-size:14px;white-space:nowrap}
+.empty{padding:18px;border:1px dashed #d9c79e;border-radius:12px;color:var(--muted);font-size:13px;text-align:center;line-height:1.6}
+.note{margin-top:14px;font-size:11px;color:var(--muted);line-height:1.6}
+footer{text-align:center;padding:18px;color:#6c6a60;font-size:11px}
+.refresh{border:1px solid #d9c79e;background:#fff8e9;color:#674e1d;border-radius:9px;padding:8px 12px;font-size:12px;cursor:pointer}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.content-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.head{align-items:flex-start;flex-direction:column}.datebox{text-align:left}.welcome{align-items:flex-start}.mascot{width:45px;height:45px;font-size:27px}.stats{gap:9px}.stat{padding:13px}.stat strong{font-size:29px}.stat-top{font-size:12px}.welcome h2{font-size:17px}}
+</style></head>
+<body>
+<div class="batik-top"></div>
+<header><div class="head">
+ <div class="brand"><div class="seal">S3</div><div><h1>Dashboard Kehadiran</h1><p class="subtitle">SMA NEGERI 3 SARMI · GURU & STAF TATA USAHA</p></div></div>
+ <div class="datebox"><div id="today">Tanggal akan tampil di sini</div><strong id="clock">--:--:-- WIT</strong></div>
+</div></header>
+<main>
+ <section class="welcome">
+  <div><h2>Salam Semangat, Keluarga Besar SMAN 3 Sarmi!</h2><p>Disiplin hari ini adalah langkah menuju prestasi esok hari.<br>Terima kasih atas dedikasi dan kerja keras seluruh guru serta staf.</p></div>
+  <div class="mascots" aria-label="Ilustrasi kartun guru dan siswa"><div class="mascot">👩‍🏫</div><div class="mascot">🧑‍🎓</div></div>
+ </section>
+ <div class="section-title"><h2>📍 Kehadiran Hari Ini</h2><div class="ornament"></div><span class="tag">Pembaruan data</span></div>
+ <section class="stats">
+  <article class="stat green"><div class="stat-top"><span>Sudah hadir</span><span class="stat-icon">🌿</span></div><strong id="countPresent">—</strong><small>Hadir dan terlambat</small></article>
+  <article class="stat red"><div class="stat-top"><span>Alpa</span><span class="stat-icon">📌</span></div><strong id="countAlpa">—</strong><small>Tidak ada catatan masuk</small></article>
+  <article class="stat orange"><div class="stat-top"><span>Belum absen masuk</span><span class="stat-icon">⏳</span></div><strong id="countNotIn">—</strong><small>Belum melewati status Alpa</small></article>
+  <article class="stat"><div class="stat-top"><span>Belum absen pulang</span><span class="stat-icon">🏫</span></div><strong id="countNotOut">—</strong><small>Sudah masuk, belum pulang</small></article>
+ </section>
+ <div class="content-grid">
+  <section class="panel"><div class="panel-head"><h3>Daftar Kehadiran Hari Ini</h3><button class="refresh" id="refresh">↻ Perbarui</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Nama pegawai</th><th>Masuk</th><th>Pulang</th><th>Status</th></tr></thead><tbody id="attendanceRows"><tr><td colspan="4">Menunggu koneksi data Supabase…</td></tr></tbody></table></div>
+   <p class="note">Data ditampilkan dari Supabase setelah Admin/Operator login pada browser yang sama.</p>
+  </section>
+  <section class="panel"><div class="panel-head"><h3>🏅 Papan Apresiasi Bulan Ini</h3><span class="tag" id="monthLabel">Bulan berjalan</span></div>
+   <div id="rankingRows" class="ranking"><div class="empty">Memeriksa sesi login dan data kehadiran Supabase…</div></div>
+   <p class="note">Peringkat dihitung berdasarkan jumlah hari hadir/terlambat yang memiliki catatan absen masuk. Jumlah hari yang sama memperoleh peringkat yang sama.</p>
+  </section>
+ </div>
+ <p class="note">Dashboard membaca data pegawai dan absensi melalui sesi Admin/Operator Supabase. RLS tetap menjadi pengatur akses database.</p>
+</main>
+<footer>© SMA Negeri 3 Sarmi · Disiplin, Dedikasi, Prestasi</footer>
+<div class="batik-bottom"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const $ = id => document.getElementById(id);
+const WIT = 'Asia/Jayapura';
+let db = null;
+let staff = [];
+let attendanceToday = [];
+let calendarToday = null;
+let refreshBusy = false;
+
+function dateWIT(d = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: WIT, year: 'numeric', month: '2-digit', day: '2-digit'
+  }).format(d);
+}
+function monthWIT(d = new Date()) { return dateWIT(d).slice(0, 7); }
+function timeWIT(d = new Date()) {
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: WIT, hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hourCycle: 'h23'
+  }).format(d);
+}
+function schoolClockWIT(d = new Date()) {
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: WIT, hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+  }).format(d);
+}
+function escapeHtml(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+function setMessage(message, isError = false) {
+  $('attendanceRows').innerHTML =
+    `<tr><td colspan="4" class="empty">${escapeHtml(message)}</td></tr>`;
+  $('rankingRows').innerHTML =
+    `<div class="empty">${escapeHtml(message)}</div>`;
+  if (isError) console.error(message);
+}
+function tickClock() {
+  const now = new Date();
+  $('today').textContent = new Intl.DateTimeFormat('id-ID', {
+    weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:WIT
+  }).format(now);
+  $('clock').textContent = timeWIT(now) + ' WIT';
+  $('monthLabel').textContent = new Intl.DateTimeFormat('id-ID', {
+    month:'long', year:'numeric', timeZone:WIT
+  }).format(now);
+}
+function readSavedSettings() {
+  try { return JSON.parse(localStorage.getItem('sarmiSettings') || '{}'); }
+  catch (_) { return {}; }
+}
+function statusClass(status) {
+  const s = String(status || '').toLowerCase();
+  if (s === 'alpa' || s === 'alpha') return 'alpa';
+  if (s.includes('bolos')) return 'bolos';
+  if (s === 'hadir' || s === 'terlambat') return 'hadir';
+  return '';
+}
+function isPresent(row) {
+  const s = String(row?.status || '').toLowerCase();
+  return !!row?.check_in && (s === 'hadir' || s === 'terlambat' || !s);
+}
+function renderDashboard() {
+  const active = staff.filter(p => p.active === true);
+  const byEmployee = new Map(attendanceToday.map(a => [String(a.employee_id), a]));
+  const today = dateWIT();
+  const isWorkday = calendarToday?.is_workday === true;
+  const now = schoolClockWIT();
+  const absentAfter = String(calendarToday?.absent_after || '09:00').slice(0,5);
+  const checkoutAt = String(calendarToday?.check_out_time || '14:00').slice(0,5);
+  const pastAbsentCutoff = isWorkday && (today < dateWIT() || now >= absentAfter);
+  const pastCheckout = isWorkday && now >= checkoutAt;
+
+  let present = 0, alpa = 0, notIn = 0, notOut = 0;
+  const rows = [];
+
+  for (const person of active) {
+    const record = byEmployee.get(String(person.id));
+    let status = 'Belum absen masuk';
+    let masuk = record?.check_in || '—';
+    let pulang = record?.check_out || '—';
+
+    if (record) {
+      const raw = String(record.status || '').trim();
+      if (record.check_in) {
+        present++;
+        if (!record.check_out) {
+          notOut++;
+          status = pastCheckout ? 'Bolos pulang' : 'Belum pulang';
+        } else {
+          status = raw || 'Hadir';
+        }
+      } else if (['Alpa','Alpha'].includes(raw)) {
+        alpa++;
+        status = 'Alpa';
+      } else if (['Izin','Sakit','Tugas Luar'].includes(raw)) {
+        status = raw;
+      } else if (pastAbsentCutoff) {
+        alpa++;
+        status = 'Alpa';
+      } else {
+        notIn++;
+      }
+    } else if (pastAbsentCutoff) {
+      alpa++;
+      status = 'Alpa';
+    } else {
+      notIn++;
+    }
+
+    rows.push({
+      name: person.name || 'Nama tidak tersedia',
+      masuk, pulang, status
+    });
+  }
+
+  $('countPresent').textContent = present;
+  $('countAlpa').textContent = alpa;
+  $('countNotIn').textContent = notIn;
+  $('countNotOut').textContent = notOut;
+
+  const visibleRows = rows.filter(r =>
+    r.status !== 'Belum absen masuk' || r.masuk !== '—'
+  );
+  $('attendanceRows').innerHTML = visibleRows.length
+    ? visibleRows.map(r => `<tr>
+        <td>${escapeHtml(r.name)}</td>
+        <td>${escapeHtml(r.masuk)}</td>
+        <td>${escapeHtml(r.pulang)}</td>
+        <td><span class="status ${statusClass(r.status)}">${escapeHtml(r.status)}</span></td>
+      </tr>`).join('')
+    : `<tr><td colspan="4" class="empty">${
+        isWorkday ? 'Belum ada catatan kehadiran hari ini.' :
+        'Hari ini tidak tercatat sebagai hari kerja sekolah.'
+      }</td></tr>`;
+
+  if (!isWorkday) {
+    $('attendanceRows').insertAdjacentHTML('beforeend',
+      '<tr><td colspan="4" class="note">Kalender sekolah menandai hari ini sebagai hari non-kerja. Status Alpa tidak dihitung.</td></tr>');
+  }
+}
+async function renderMonthlyAppreciation() {
+  const month = monthWIT();
+  const start = month + '-01';
+  const [year, mon] = month.split('-').map(Number);
+  const lastDay = new Date(Date.UTC(year, mon, 0)).getUTCDate();
+  const end = `${month}-${String(lastDay).padStart(2,'0')}`;
+
+  const { data, error } = await db.from('attendance')
+    .select('employee_id,work_date,check_in,status')
+    .gte('work_date', start)
+    .lte('work_date', end);
+
+  if (error) throw new Error('Gagal membaca rekap bulanan: ' + error.message);
+
+  const people = new Map(staff.filter(p => p.active === true)
+    .map(p => [String(p.id), p]));
+  const counts = new Map();
+
+  for (const row of (data || [])) {
+    const person = people.get(String(row.employee_id));
+    if (!person || !row.check_in) continue;
+    const status = String(row.status || '').toLowerCase();
+    if (status && !['hadir','terlambat'].includes(status)) continue;
+    if (!counts.has(String(row.employee_id))) counts.set(String(row.employee_id), new Set());
+    counts.get(String(row.employee_id)).add(row.work_date);
+  }
+
+  const ranked = [...counts.entries()]
+    .map(([id, days]) => ({ person: people.get(id), days: days.size }))
+    .filter(x => x.days > 0)
+    .sort((a,b) => b.days - a.days ||
+      String(a.person.name || '').localeCompare(String(b.person.name || ''), 'id'));
+
+  if (!ranked.length) {
+    $('rankingRows').innerHTML = '<div class="empty">Belum ada catatan hadir/terlambat pada bulan ini.</div>';
+    return;
+  }
+
+  let previousDays = null, rank = 0;
+  $('rankingRows').innerHTML = ranked.slice(0, 10).map((item, index) => {
+    if (item.days !== previousDays) rank = index + 1;
+    previousDays = item.days;
+    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🏅';
+    return `<div class="rank-row">
+      <div class="medal">${medal}</div>
+      <div><div class="rank-name">${escapeHtml(item.person.name || 'Pegawai')}</div>
+      <div class="rank-sub">Peringkat ${rank} · Kehadiran bulan ini</div></div>
+      <div class="days">${item.days} hari</div>
+    </div>`;
+  }).join('');
+}
+async function refreshDashboard() {
+  if (!db || refreshBusy) return;
+  refreshBusy = true;
+  $('refresh').disabled = true;
+  $('refresh').textContent = '↻ Memuat…';
+  try {
+    const today = dateWIT();
+    const [{ data: role, error: roleError },
+      { data: employees, error: staffError },
+      { data: attendance, error: attendanceError },
+      { data: calendar, error: calendarError }] = await Promise.all([
+        db.rpc('get_my_role'),
+        db.from('employees').select('id,name,employee_type,active').eq('active', true).order('name'),
+        db.from('attendance').select('employee_id,work_date,check_in,check_out,status')
+          .eq('work_date', today),
+        db.from('school_calendar').select('work_date,is_workday,absent_after,check_out_time')
+          .eq('work_date', today).maybeSingle()
+      ]);
+
+    if (roleError) throw new Error('Gagal memeriksa peran akun: ' + roleError.message);
+    if (!['admin','operator'].includes(role)) {
+      throw new Error('Akun ini tidak memiliki peran Admin/Operator. Login menggunakan akun yang berwenang di halaman Admin.');
+    }
+    if (staffError) throw new Error('Gagal membaca data pegawai: ' + staffError.message);
+    if (attendanceError) throw new Error('Gagal membaca absensi hari ini: ' + attendanceError.message);
+    if (calendarError) throw new Error('Gagal membaca kalender sekolah: ' + calendarError.message);
+
+    staff = employees || [];
+    attendanceToday = attendance || [];
+    calendarToday = calendar || null;
+    renderDashboard();
+    await renderMonthlyAppreciation();
+  } catch (err) {
+    setMessage(err.message || 'Terjadi kesalahan saat memuat data.', true);
+    $('countPresent').textContent = '—';
+    $('countAlpa').textContent = '—';
+    $('countNotIn').textContent = '—';
+    $('countNotOut').textContent = '—';
+  } finally {
+    refreshBusy = false;
+    $('refresh').disabled = false;
+    $('refresh').textContent = '↻ Perbarui';
+  }
+}
+async function initializeDashboard() {
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  const settings = readSavedSettings();
+  if (!settings.url || !settings.key) {
+    setMessage('Konfigurasi Supabase belum ditemukan. Buka halaman Admin, simpan konfigurasi, lalu login sebagai Admin/Operator pada browser ini.');
+    return;
+  }
+  if (!window.supabase?.createClient) {
+    setMessage('SDK Supabase gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.', true);
+    return;
+  }
+
+  try {
+    db = window.supabase.createClient(settings.url, settings.key);
+    const { data: { session }, error } = await db.auth.getSession();
+    if (error) throw error;
+    if (!session) {
+      setMessage('Sesi login belum ditemukan. Buka halaman Admin di browser yang sama, login sebagai Admin/Operator, lalu buka Dashboard Batik kembali.');
+      return;
+    }
+    await refreshDashboard();
+    setInterval(refreshDashboard, 60000);
+  } catch (err) {
+    setMessage('Tidak dapat menghubungkan dashboard: ' + err.message, true);
+  }
+}
+$('refresh').addEventListener('click', refreshDashboard);
+initializeDashboard();
+</script>
+
+</body></html>
