@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Absensi Face ID — SMA Negeri 3 Sarmi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172b42;font-family:Arial,sans-serif}main{max-width:900px;margin:24px auto;padding:16px}.card{background:#fff;border:1px solid #dce5ee;border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 8px 24px #10243a0a}h1{margin:0;font-size:24px}h2{margin-top:0;font-size:20px}p{line-height:1.6;color:#5c6b7b;font-size:14px}label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}input,select,button{font:inherit;padding:12px;border-radius:9px;width:100%;border:1px solid #d7e0e9}button{background:#1769aa;color:#fff;border:0;font-weight:bold;cursor:pointer;margin-top:12px}button:disabled{opacity:.5;cursor:not-allowed}button.secondary{background:#e7eef5;color:#172b42}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.camera{background:#0e1b29;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3;margin-top:12px}.camera video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}.face-guide{position:absolute;z-index:2;left:50%;top:50%;width:44%;height:76%;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.92);border-style:dashed;border-radius:48% 48% 45% 45%;box-shadow:0 0 0 999px rgba(5,15,25,.12),inset 0 0 18px rgba(255,255,255,.08);pointer-events:none}.face-guide:after{content:"POSISIKAN WAJAH DI DALAM BINGKAI";position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);width:max-content;max-width:90vw;color:#fff;background:rgba(0,0,0,.55);padding:6px 9px;border-radius:6px;font-size:10px;font-weight:bold;letter-spacing:.4px;text-align:center}#msg{position:absolute;z-index:3;inset:0;display:grid;place-items:center;color:white;text-align:center;padding:20px}.status{padding:13px;border-radius:9px;background:#edf5fb;color:#24425e;font-size:14px;margin-top:12px;white-space:pre-wrap}.hidden{display:none!important}.warn{background:#fff4dd;color:#805916;padding:12px;border-radius:9px;font-size:12px;line-height:1.6}.small{font-size:12px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.top a{font-size:13px}.recognized{font-size:18px;font-weight:bold;color:#1769aa}.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.ticker{overflow:hidden;white-space:nowrap;background:#e8f3ff;border:1px solid #cfe3f5;border-radius:10px;padding:11px;margin:12px 0;color:#174d78;font-weight:bold}.ticker span{display:inline-block;min-width:100%;animation:runTicker 22s linear infinite}@keyframes runTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}.pulse{animation:softPulse 2s ease-in-out infinite}@keyframes softPulse{0%,100%{box-shadow:0 0 0 0 #1769aa22}50%{box-shadow:0 0 0 7px #1769aa08}}.pill.bolos{background:#fde8e8;color:#9d2525}.pill.alpa{background:#fff1dc;color:#805916}.leaderboard-card{margin:16px 0;padding:18px;border:1px solid #e6d9a8;border-radius:14px;background:linear-gradient(135deg,#fffdf3,#fff8df)}.leaderboard-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.leaderboard-heading h3{margin:0;color:#70500b;font-size:19px}.leaderboard-heading p{margin:5px 0 0}.leaderboard-badge{font-size:10px;font-weight:bold;letter-spacing:.5px;color:#76570b;background:#f7e9b5;border-radius:20px;padding:7px 10px}.leaderboard-list{display:grid;gap:8px;margin-top:14px}.leaderboard-item{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:10px;padding:11px 13px;border-radius:10px;background:#fff;border:1px solid #f0e5c3;animation:leaderEnter .45s ease both}.leaderboard-rank{font-size:20px;text-align:center}.leaderboard-name{font-weight:bold;color:#26384a}.leaderboard-count{font-weight:bold;color:#805b08;white-space:nowrap}.leaderboard-note{font-size:11px;margin:12px 0 0;color:#776b4d}.leaderboard-empty{padding:14px;background:#fff;border-radius:9px;color:#6a7280;font-size:13px}@keyframes leaderEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.leaderboard-item{animation:none}}.sound-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.sound-controls button{width:auto;margin:0}.dash-stat{background:#edf5fb;border-radius:10px;padding:12px}.dash-stat b{display:block;font-size:22px;color:#1769aa}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}th,td{padding:10px;border-bottom:1px solid #e5ebf1;text-align:left}th{background:#f5f8fb}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7f5eb;color:#21643a}.pill.no{background:#fff1dc;color:#805916}@media(max-width:700px){.dash-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.grid{grid-template-columns:1fr}main{margin:8px auto;padding:10px}}
 
@@ -187,6 +188,64 @@ tbody tr:hover{background:#f0fafa}
   *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
+
+/* === SMA NEGERI 3 SARMI | CYBERPUNK NEON THEME === */
+:root{--ocean-950:#020718;--ocean-900:#061432;--ocean-800:#0b2852;--ocean-600:#087fba;--aqua:#22f3ff;--ice:#eafaff;--coral:#ff28d7;--sun:#ffe500;--ink:#eafaff}
+html{min-height:100%;scroll-behavior:smooth}
+body{background:#020718 url("assets/mural-sma-negeri-3-sarmi.png") center center/cover fixed no-repeat;color:#eafaff;
+  font-family:'Rajdhani',Arial,sans-serif;position:relative;isolation:isolate}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(115deg,rgba(1,5,20,.9),rgba(2,13,40,.77) 48%,rgba(28,0,44,.82)),
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(34,243,255,.035) 4px 5px)}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.4;
+  background:linear-gradient(90deg,transparent 49.8%,#22f3ff55 50%,transparent 50.2%);background-size:64px 100%;
+  animation:cyberSweep 10s linear infinite}
+@keyframes cyberSweep{from{background-position:0 0}to{background-position:64px 0}}
+main{background:linear-gradient(145deg,rgba(2,11,34,.94),rgba(4,21,55,.91));
+  border:1px solid #22f3ff88;box-shadow:0 24px 80px #000a,0 0 0 5px #22f3ff12,0 0 30px #168bff33;
+  backdrop-filter:blur(14px);color:#eafaff}
+main:before{border-color:#22f3ff33}
+.top{background:radial-gradient(circle at 88% 15%,#22f3ff33,transparent 28%),linear-gradient(115deg,#020a24,#06376b 58%,#310044);
+  border:1px solid #22f3ff88;box-shadow:0 0 18px #22f3ff33,inset 0 0 22px #22f3ff0e}
+.top:before{background:conic-gradient(from 0deg,transparent 0 30%,#22f3ff33 40%,transparent 52% 100%)}
+.top:after{border-color:#22f3ff66;box-shadow:0 0 0 22px #22f3ff13,0 0 0 48px #ff28d711}
+h1,h2,h3,.top a,button,label,.leaderboard-heading h3{font-family:'Orbitron','Rajdhani',sans-serif}
+.top h1{color:#fff;text-shadow:0 0 9px #22f3ff,0 0 22px #168bff;letter-spacing:.025em}
+.top p{color:#b9faff}
+.top a{background:linear-gradient(110deg,#22f3ff,#168bff);color:#00152c;box-shadow:0 0 14px #22f3ff88}
+.card{background:linear-gradient(145deg,rgba(5,18,49,.94),rgba(10,20,58,.9));border:1px solid #22f3ff55;
+  box-shadow:0 0 14px #168bff20,inset 0 0 18px #22f3ff0b;backdrop-filter:blur(12px);color:#eafaff}
+.card:before{background:linear-gradient(90deg,#22f3ff,#168bff,#ff28d7,#ffe500);box-shadow:0 0 10px #22f3ff}
+.card:hover{border-color:#ff28d7;box-shadow:0 0 18px #ff28d744,0 0 28px #168bff22}
+h2,h3{color:#eafaff;text-shadow:0 0 8px #22f3ff44}
+p,label,.small{color:#c0dced}
+label{letter-spacing:.035em}
+input,select{background:rgba(2,10,31,.92);color:#effcff;border:1px solid #22f3ff66}
+input::placeholder{color:#7fa8bf}
+input:focus,select:focus{border-color:#ff28d7;box-shadow:0 0 0 3px #22f3ff33,0 0 12px #ff28d744}
+button{background:linear-gradient(110deg,#087dce,#05bfcf);color:#001326;border:1px solid #8bffff;box-shadow:0 0 12px #22f3ff55}
+button:hover:not(:disabled){filter:brightness(1.2);box-shadow:0 0 18px #22f3ff99,0 0 22px #168bff55}
+button.secondary{background:linear-gradient(110deg,#152a56,#29204f);color:#e9fcff;border:1px solid #ff28d777;box-shadow:0 0 10px #ff28d722}
+.status{background:rgba(5,29,58,.94);color:#dffaff;border:1px solid #22f3ff55}
+.warn{background:rgba(63,42,8,.92);color:#ffe8a1;border:1px solid #ffe50088;border-left:4px solid #ffe500}
+.camera{border:3px solid #22f3ff;box-shadow:0 0 0 4px #22f3ff22,0 0 22px #22f3ff55}
+.face-guide{border-color:#baffff;filter:drop-shadow(0 0 9px #22f3ff)}
+.dash-stat{background:linear-gradient(145deg,#071f47,#10244b);border:1px solid #22f3ff55;color:#dffaff}
+.dash-stat b{color:#22f3ff;text-shadow:0 0 10px #22f3ff77}
+.ticker{background:linear-gradient(90deg,#052d55,#11234d,#3b1248);border:1px solid #22f3ff77;color:#c9ffff}
+.leaderboard-card{background:linear-gradient(135deg,rgba(36,25,7,.96),rgba(42,12,48,.93));border:1px solid #ffe50088;box-shadow:0 0 18px #ffe5001c}
+.leaderboard-heading h3{color:#ffe66b;text-shadow:0 0 9px #ffe50066}
+.leaderboard-heading p,.leaderboard-note{color:#d6d2b9}
+.leaderboard-badge{background:#392b0b;color:#ffe66b;border:1px solid #ffe50088}
+.leaderboard-item{background:rgba(5,18,45,.88);border:1px solid #22f3ff55}
+.leaderboard-name{color:#effcff}.leaderboard-count{color:#ffe66b}
+.table-wrap{border-color:#22f3ff55}
+table{color:#eafaff}th{background:#0b2b52;color:#9ff7ff}td{color:#e3f6ff;border-bottom-color:#45688777}
+tbody tr:hover{background:#0b2a4c}
+.pill{background:#073c37;color:#7fffd7}.pill.bolos{background:#501d39;color:#ffb0cf}.pill.alpa{background:#48320e;color:#ffe39a}.pill.no{background:#152b45;color:#c7dbe8}
+.hidden{display:none!important}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
 </style></head><body><main>
 <div class="top"><div><h1>Absensi Face ID</h1><p>SMA Negeri 3 Sarmi · Guru dan Staf Tata Usaha</p></div><a href="index.html">Kembali ke Dasbor</a></div>
 <section id="configCard" class="card"><h2>Hubungkan Supabase</h2><label>Project URL</label><input id="url" placeholder="https://project.supabase.co" type="url"><label>Publishable / anon key</label><input id="key" placeholder="sb_publishable_..." autocomplete="off"><button id="connect">Hubungkan</button><div id="status" class="status">Masukkan URL dan publishable/anon key. Jangan gunakan service_role atau secret key.</div></section>
@@ -205,7 +264,8 @@ tbody tr:hover{background:#f0fafa}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script><script>
 const $=id=>document.getElementById(id);let db=null,stream=null,models=false,recognized=null,matched=false,lastDescriptor=null;
 function say(t){$('status').textContent=t}function result(t){$('result').textContent=t}function hide(id){$(id).classList.add('hidden')}function show(id){$(id).classList.remove('hidden')}
-let voiceNotificationsEnabled=localStorage.getItem('sarmiVoiceNotifications')==='on';
+let voiceNotificationsEnabled=false;
+try { voiceNotificationsEnabled=localStorage.getItem('sarmiVoiceNotifications')==='on'; } catch (_) {}
 function updateVoiceStatus(message){
   $('voiceStatus').textContent=message;
   $('enableVoice').textContent=voiceNotificationsEnabled?'Uji Suara Notifikasi':'Aktifkan Suara Notifikasi';
@@ -268,7 +328,7 @@ $('enableVoice').onclick=()=>{
   }
 };
 updateVoiceStatus(voiceNotificationsEnabled?'Suara notifikasi aktif.':'Suara notifikasi belum diaktifkan pada perangkat ini.');
-$('connect').onclick=async()=>{try{const url=$('url').value.trim(),key=$('key').value.trim();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url))throw Error('URL Supabase tidak valid.');if(!key)throw Error('Publishable/anon key wajib diisi.');db=window.supabase.createClient(url,key);localStorage.setItem('sarmiKioskSettings',JSON.stringify({url,key}));const {data:{session},error}=await db.auth.getSession();if(error)throw error;hide('configCard');if(session)await activate();else show('loginCard');say('Koneksi Supabase berhasil.')}catch(e){say('Koneksi gagal: '+e.message)}};
+$('connect').onclick=async()=>{try{const url=$('url').value.trim(),key=$('key').value.trim();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url))throw Error('URL Supabase tidak valid.');if(!key)throw Error('Publishable/anon key wajib diisi.');db=window.supabase.createClient(url,key);localStorage.setItem('sarmiSettings',JSON.stringify({url,key}));localStorage.setItem('sarmiKioskSettings',JSON.stringify({url,key}));const {data:{session},error}=await db.auth.getSession();if(error)throw error;hide('configCard');if(session)await activate();else show('loginCard');say('Koneksi Supabase berhasil.')}catch(e){say('Koneksi gagal: '+e.message)}};
 async function activate(){const {data:{session},error:se}=await db.auth.getSession();if(se)throw se;if(!session)throw Error('Sesi login tidak ditemukan. Silakan login kembali.');const email=String(session.user?.email||'').toLowerCase();if(email!=='smantisarmiselaludihati@gmail.com'){await db.auth.signOut();throw Error('Akun ini bukan akun Kios sekolah yang diizinkan.');}hide('loginCard');show('kioskCard');show('attendanceDashboard');result('Akun Kios terverifikasi. Aktifkan kamera dan muat model wajah.');await loadAttendanceDashboard();}
 $('login').onclick=async()=>{try{const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await activate()}catch(e){say('Login gagal: '+e.message)}};
 $('logout').onclick=async()=>{stopCamera();await db.auth.signOut();recognized=null;matched=false;hide('kioskCard');hide('attendanceDashboard');show('loginCard');say('Anda telah keluar.')};
@@ -281,8 +341,8 @@ $('scan').onclick=async()=>{try{$('scan').disabled=true;$('save').disabled=true;
 $('save').onclick=async()=>{try{if(!matched||!recognized)throw Error('Kenali wajah terlebih dahulu.');$('save').disabled=true;const fresh=await getDesc();const attendanceKind=$('kind').value;const {data,error}=await db.rpc('kiosk_record_face_attendance',{p_descriptor:fresh,p_kind:attendanceKind});if(error)throw error;if(data?.success===false||data?.ok===false)throw Error(data?.message||'Server tidak mengonfirmasi keberhasilan absensi.');const employeeName=String(data?.employee_name||recognized.employee_name||'').trim();result((data?.message||'Absensi tersimpan.')+' Pegawai: '+employeeName);speakAttendance(attendanceKind,employeeName);recognized=null;matched=false;lastDescriptor=null;$('recognized').textContent='Absensi berhasil. Siap untuk pegawai berikutnya.';await loadAttendanceDashboard();}catch(e){result('Absensi gagal disimpan: '+e.message);$('save').disabled=!matched}};
 
 function firstValue(obj,keys){for(const k of keys){if(obj&&obj[k]!==undefined&&obj[k]!==null&&obj[k]!=='')return obj[k]}return null}
-function datePart(v){if(!v)return null;const d=new Date(v);if(Number.isNaN(d.getTime()))return String(v).slice(0,10);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function timePart(v){if(!v)return '—';const d=new Date(v);if(typeof v==='string'&&v.includes('T')&&!Number.isNaN(d.getTime()))return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});return String(v).slice(0,5)}
+function datePart(v){if(!v)return null;const d=new Date(v);if(Number.isNaN(d.getTime()))return String(v).slice(0,10);const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jayapura',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d).map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}`}
+function timePart(v){if(!v)return '—';const d=new Date(v);if(typeof v==='string'&&v.includes('T')&&!Number.isNaN(d.getTime()))return d.toLocaleTimeString('id-ID',{timeZone:'Asia/Jayapura',hour:'2-digit',minute:'2-digit'});return String(v).slice(0,5)}
 
 function getWitParts(date=new Date()){
   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jayapura',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date);
@@ -421,5 +481,5 @@ $('toggleMusic').onclick=()=>ambientAudio?stopAmbient():startAmbient();
 window.addEventListener('pagehide',stopAmbient);
 
 
-(async()=>{try{const s=JSON.parse(localStorage.getItem('sarmiKioskSettings')||'{}');if(s.url&&s.key){$('url').value=s.url;$('key').value=s.key;db=window.supabase.createClient(s.url,s.key);const {data:{session},error}=await db.auth.getSession();if(error)throw error;hide('configCard');if(session)await activate();else show('loginCard')}}catch(e){say(e.message)}})();
+(async()=>{try{let s={};try{s=JSON.parse(localStorage.getItem('sarmiSettings')||'{}')}catch(_){}if(!s.url||!s.key){try{s=JSON.parse(localStorage.getItem('sarmiKioskSettings')||'{}')}catch(_){}}if(s.url&&s.key){$('url').value=s.url;$('key').value=s.key;db=window.supabase.createClient(s.url,s.key);const {data:{session},error}=await db.auth.getSession();if(error)throw error;hide('configCard');if(session)await activate();else show('loginCard')}}catch(e){say(e.message)}})();
 </script></body></html>
